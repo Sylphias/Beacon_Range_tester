@@ -31,43 +31,30 @@ void loop()
 {
 //  xbee.readPacket(100);
   xbee.send(tx);
-//  if (xbee.getResponse().isAvailable())
-//  {
-//    Serial.println("Getting Signal Strength: ");
-//    
-//    delay(1000);
-//    if(xbee.getResponse().getApiId() == RX_64_RESPONSE || xbee.getResponse().getApiId() == RX_16_RESPONSE)
-//    { 
-//      if (xbee.getResponse().getApiId() == RX_16_RESPONSE) 
-//      {
-//        xbee.getResponse().getRx16Response(rx16);
-//        rssi = rx16.getRssi();
-//
-////        lcd.clear();
-////        lcd.print(rssi);
-//        Serial.println(rssi);
-//        String ab ;
-//        for(int x = 0 ; x< rx16.getDataLength()+1; x++){
-//          char y = rx16.getData(x);
-//           ab = ab + y;
-//        }
-//        Serial.println(ab);
-////       Serial.println(rx16.getFrameData());
-//
-//        
-//        //Serial.print('sent');
-//      } 
-//      else 
-//      {
-//        Serial.println("64");
-//        xbee.getResponse().getRx64Response(rx64);
-//        rssi = rx64.getRssi();
-////        lcd.clear();
-////        lcd.print(rssi);
-//        Serial.println(rssi);
-////        xbee.send(rssi);
-//      }
-//    }
-//  }
+ if (xbee.getResponse().isAvailable())
+ {
+   Serial.println("Getting Signal Strength: ");
+   
+   if(xbee.getResponse().getApiId() == RX_64_RESPONSE || xbee.getResponse().getApiId() == RX_16_RESPONSE)
+   { 
+     if (xbee.getResponse().getApiId() == RX_16_RESPONSE) 
+     {
+       xbee.getResponse().getRx16Response(rx16);
+       rssi = rx16.getRssi();
+       Serial.println(rssi);
+       Serial.println(ab);
+     } 
+     else 
+     {
+       Serial.println("64");
+       xbee.getResponse().getRx64Response(rx64);
+       rssi = rx64.getRssi();
+//        lcd.clear();
+//        lcd.print(rssi);
+       Serial.println(rssi);
+//        xbee.send(rssi);
+     }
+   }
+ }
 delay(1000);
 }
