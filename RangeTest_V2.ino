@@ -16,7 +16,7 @@ Rx16Response rx16 = Rx16Response();
 Rx64Response rx64 = Rx64Response();
 File myFile;
 //Simulate actual packet length
-uint8_t payload[] ={'T','e','s','t','i','n','g',' ','P','a','l','o','a','d'}; 
+uint8_t payload[] ={'T','e','s','t','i','n','g',' ','P','a','y','l','o','a','d'}; 
 Tx16Request tx = Tx16Request(0x0000, payload, sizeof(payload));
 uint8_t option = 0;
 uint8_t data = 0;
@@ -62,9 +62,9 @@ void loop()
   }
 delay(1000);
 }
-
+//This function writes to rssi.txt, note that sd.open does not accept underscores for whatever reason
 void write_rssi_to_file(uint8_t signal_str){
-  myFile = SD.open("rssi_values.txt", FILE_WRITE);
+  myFile = SD.open("rssi.txt", FILE_WRITE);
   // if the file opened okay, write to it:
   if (myFile) {
     Serial.println("Writing Signal Strength...");
@@ -73,7 +73,7 @@ void write_rssi_to_file(uint8_t signal_str){
     myFile.close();
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening test.txt");
+    Serial.println("error opening rssi_values.txt");
   }
 }
 
