@@ -14,7 +14,7 @@ XBee xbee=XBee();
 XBeeResponse response = XBeeResponse();
 Rx16Response rx16 = Rx16Response();
 Rx64Response rx64 = Rx64Response();
-
+File myFile;
 //Simulate actual packet length
 uint8_t payload[] ={'T','e','s','t','i','n','g',' ','P','a','l','o','a','d'}; 
 Tx16Request tx = Tx16Request(0x0000, payload, sizeof(payload));
@@ -32,7 +32,6 @@ void setup()
 void loop() 
 {
   xbee.readPacket(100);
-  xbee.send(tx);
   if (xbee.getResponse().isAvailable())
   {
     Serial.println("Getting Signal Strength: ");
@@ -41,10 +40,11 @@ void loop()
     { 
       if (xbee.getResponse().getApiId() == RX_16_RESPONSE) 
       {
-       xbee.getResponse().getRx16Response(rx16);
-       rssi = rx16.getRssi();
-       Serial.println(rssi);
-       write_rssi_to_file(rssi);
+        xbee.getResponse().getRx16Response(rx16);
+        rssi = rx16.getRssi();
+        Serial.println(rssi);
+        write_rssi_to_file(rssi);
+        xbee.send(tx);
       } 
       else 
       {
@@ -62,7 +62,7 @@ void write_rssi_to_file(uint8_t signal_str){
   myFile = SD.open("rssi_values.txt", FILE_WRITE);
   // if the file opened okay, write to it:
   if (myFile) {
-    Serial.println("Signal Strength");
+    Serial.println("Writing Signal Strength...");
     myFile.println(signal_str);
     // close the file:
     myFile.close();
@@ -71,3 +71,4 @@ void write_rssi_to_file(uint8_t signal_str){
     Serial.println("error opening test.txt");
   }
 }
+
