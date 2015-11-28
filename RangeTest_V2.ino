@@ -27,6 +27,11 @@ void setup()
   Serial.begin(9600);
   serial1.begin(9600);
   xbee.setSerial(Serial);
+  if (!SD.begin(8)) {
+    Serial.println("initialization failed!");
+    return;
+  }
+  Serial.println("initialization done.");
 }
  
 void loop() 
@@ -71,4 +76,5 @@ void write_rssi_to_file(uint8_t signal_str){
     Serial.println("error opening test.txt");
   }
 }
+
 
