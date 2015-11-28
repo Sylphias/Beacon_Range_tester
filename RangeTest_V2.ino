@@ -39,17 +39,17 @@ void loop()
   xbee.readPacket(100);
   if (xbee.getResponse().isAvailable())
   {
-    Serial.println("Getting Signal Strength: ");
-
     if(xbee.getResponse().getApiId() == RX_64_RESPONSE || xbee.getResponse().getApiId() == RX_16_RESPONSE)
     { 
       if (xbee.getResponse().getApiId() == RX_16_RESPONSE) 
       {
+        Serial.println("Getting Signal Strength: ");
         xbee.getResponse().getRx16Response(rx16);
         rssi = rx16.getRssi();
         Serial.println(rssi);
         write_rssi_to_file(rssi);
         xbee.send(tx);
+        Serial.println(' ');
       } 
       else 
       {
@@ -62,7 +62,7 @@ void loop()
   }
 delay(1000);
 }
-//This function writes to rssi.txt, note that sd.open does not accept underscores for whatever reason
+
 void write_rssi_to_file(uint8_t signal_str){
   myFile = SD.open("rssi.txt", FILE_WRITE);
   // if the file opened okay, write to it:
