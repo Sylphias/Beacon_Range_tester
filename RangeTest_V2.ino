@@ -9,7 +9,7 @@ This file is used to do range testing, it sends out packets to another xbee and 
 // XBee's DOUT (TX) is connected to pin 8 (Arduino's Software RX)
 // XBee's DIN (RX) is connected to pin 9 (Arduino's Software TX)
 SoftwareSerial serial1(0, 1); // RX, TX
- 
+ledPin = 4;
 XBee xbee=XBee();
 XBeeResponse response = XBeeResponse();
 Rx16Response rx16 = Rx16Response();
@@ -27,6 +27,7 @@ void setup()
   Serial.begin(9600);
   serial1.begin(9600);
   xbee.setSerial(Serial);
+  pinMode(ledPin, OUTPUT);
   if (!SD.begin(8)) {
     Serial.println("initialization failed!");
     return;
@@ -43,6 +44,7 @@ void loop()
     { 
       if (xbee.getResponse().getApiId() == RX_16_RESPONSE) 
       {
+        digitalWrite(ledPin,HIGH);
         Serial.println("Getting Signal Strength: ");
         xbee.getResponse().getRx16Response(rx16);
         rssi = rx16.getRssi();
@@ -71,6 +73,7 @@ void write_rssi_to_file(uint8_t signal_str){
     myFile.println(signal_str);
     // close the file:
     myFile.close();
+    digitalWrite(ledPin,LOW);
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening rssi_values.txt");
